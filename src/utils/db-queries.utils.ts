@@ -2,15 +2,29 @@ import { Mysqldb } from '../events/config';
 var mysqlPool = require('mysql');
 
 export class DbQueriesUtils {
+  //private static instance: DbQueriesUtils = null;
+
   private dbPool: any;
 
   constructor() {
-    this.dbPool = mysqlPool.createPool({
-      host: Mysqldb.host,
-      user: Mysqldb.user,
-      password: Mysqldb.password,
-      database: Mysqldb.database,
-    });
+    //DbQueriesUtils.getInstance();
+    this.createDbPool();
+  }
+
+  // static getInstance() {
+  //   DbQueriesUtils.instance = DbQueriesUtils.instance ? DbQueriesUtils.instance : new DbQueriesUtils();
+  //   return DbQueriesUtils.instance;
+  // }
+
+  private createDbPool(): void {
+    if (this.dbPool == null) {
+      this.dbPool = mysqlPool.createPool({
+        host: Mysqldb.host,
+        user: Mysqldb.user,
+        password: Mysqldb.password,
+        database: Mysqldb.database,
+      });
+    }
   }
 
   public getQuery = async (query: string) => {
@@ -21,8 +35,9 @@ export class DbQueriesUtils {
         this.dbPool.getConnection(function(err: any, connection: any) {
           // send back in connection failed
           if (err) {
-            console.log({ code: 100, status: 'Error in connection database' });
-            reject({ code: 100, status: 'Error in connection database' });
+            console.error('Error is mysql connection:' + err);
+            reject('Error is mysql connection:' + err);
+            return 'Error is mysql connection: ' + err;
           }
 
           connection.query(query, function(error: any, results: any, fields: any) {
@@ -30,10 +45,12 @@ export class DbQueriesUtils {
             connection.release();
             // Handle error after the release.
             if (error) {
+              console.error('Error is mysql processing query:' + error);
               reject(error);
+              return 'Error is mysql processing query:' + error;
             } else {
-              console.log('Data from Database : ' + JSON.stringify(results[4]));
-              resolve(results[5]);
+              console.log('For mysql query : ' + query + '\n Data: ' + JSON.stringify(results[4]));
+              resolve(results);
             }
           });
         });
