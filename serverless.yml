@@ -1,0 +1,52 @@
+service:
+  name: cricket-api-rrcc
+
+# Add the serverless-webpack plugin
+plugins:
+  - serverless-webpack
+  - serverless-offline
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  stage: "${opt:stage, 'dev'}"
+  region: "${opt:region, env:AWS_DEFAULT_REGION, 'us-east-1'}"
+  endpointType: regional
+
+functions:
+  getTeams:
+    handler: src/function/team/get-teams-index.getTeams
+    events:
+      - http:
+          method: get
+          path: getTeams
+
+custom:
+  bucket: cricket-api-ctcl
+  customDomain:
+    basePath: cricket-api-ctcl
+    domainName: '${self:custom.domains.${self:provider.stage}}'
+    stage: '${self:provider.stage}'
+    createRoute53Record: true
+    endpointType: regional
+  domains:
+    dev: dev-cricket.api-ctcl-nonprod.com
+    preprod: preprod-cricket.api-ctcl-preprod.com
+    prod: prod-cricket.api-ctcl-prod.com
+  profile:
+    dev: nonprod
+    preprod: preprod
+    prod: prod
+
+  stages:
+    - dev
+    - preprod
+    - prod
+    - cicd
+package:
+  exclude:
+    - nodee_modules/**/*
+  include:
+    - handler.ts
+    - src/**/*.ts
+    - src/**/*.js
