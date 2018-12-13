@@ -1,13 +1,16 @@
 {
   "compilerOptions": {
+    "lib": ["es6", "dom", "esnext"],
     "sourceMap": true,
-    "target": "es6",
-    "lib": [
-      "esnext"
-    ],
-    "moduleResolution": "node"
-  },
-  "exclude": [
-    "node_modules"
-  ]
+    "noImplicitAny": true,
+    "noUnusedLocals": true,
+    "noImplicitThis": true,
+    "noImplicitReturns": true,
+    "strictNullChecks": true,
+    "preserveConstEnums": true,
+    "forceConsistentCasingInFileNames": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "downlevelIteration": true
+  }
 }

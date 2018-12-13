@@ -3,8 +3,24 @@
   "version": "1.0.0",
   "description": "cricket aws api",
   "main": "handler.js",
+  "private": true,
   "scripts": {
+    "package": "node_modules/.bin/sls package",
+    "ctcl-deploy": "node_modules/.bin/sls deploy",
+    "ctcl-remove": "node_modules/.bin/sls remove",
+    "invoke": "node_modules/.bin/sls invoke",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "nyc": {
+    "silent": true,
+    "extension": [
+      ".ts"
+    ],
+    "exclude": [],
+    "reporter": [
+      "lcov",
+      "text-lcov"
+    ]
   },
   "dependencies": {
     "@types/mysql": "^2.15.5",
@@ -23,5 +39,5 @@
     "typescript": "^2.9.2",
     "webpack": "^4.5.0"
   },
-  "author": "ZUlifqar Ahmad)"
+  "author": "ZUlifqar Ahmad"
 }
