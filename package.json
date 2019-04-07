@@ -1,43 +1,44 @@
 {
-  "name": "cricket-api-ctcl",
-  "version": "1.0.0",
-  "description": "cricket aws api",
-  "main": "handler.js",
-  "private": true,
-  "scripts": {
-    "package": "node_modules/.bin/sls package",
-    "ctcl-deploy": "node_modules/.bin/sls deploy",
-    "ctcl-remove": "node_modules/.bin/sls remove",
-    "invoke": "node_modules/.bin/sls invoke",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "nyc": {
-    "silent": true,
-    "extension": [
-      ".ts"
-    ],
-    "exclude": [],
-    "reporter": [
-      "lcov",
-      "text-lcov"
-    ]
-  },
-  "dependencies": {
-    "@types/mysql": "^2.15.5",
-    "express": "^4.16.4",
-    "mysql": "^2.16.0",
-    "mysql-serverless": "^1.0.11",
-    "serverless-offline": "^3.31.3"
-  },
-  "devDependencies": {
-    "@types/aws-lambda": "8.10.1",
-    "@types/express": "^4.16.0",
-    "@types/node": "^8.0.57",
-    "serverless-webpack": "^5.1.1",
-    "source-map-support": "^0.5.6",
-    "ts-loader": "^4.2.0",
-    "typescript": "^2.9.2",
-    "webpack": "^4.5.0"
-  },
-  "author": "ZUlifqar Ahmad"
+    "name": "cricket-api-ctcl",
+    "version": "1.0.0",
+    "description": "cricket aws api",
+    "main": "handler.js",
+    "private": true,
+    "scripts": {
+        "package": "node_modules/.bin/sls package",
+        "local": "serverless offline start --stage local",
+        "ctcl-deploy": "node_modules/.bin/sls deploy",
+        "ctcl-remove": "node_modules/.bin/sls remove",
+        "invoke": "node_modules/.bin/sls invoke",
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "deploy": "AWS_SDK_LOAD_CONFIG=1 sls deploy -s dev"
+    },
+    "nyc": {
+        "silent": true,
+        "extension": [
+            ".ts"
+        ],
+        "exclude": [],
+        "reporter": [
+            "lcov",
+            "text-lcov"
+        ]
+    },
+    "dependencies": {
+        "@types/mysql": "^2.15.5",
+        "express": "^4.16.4",
+        "mysql": "^2.16.0",
+        "serverless-offline": "^3.31.3"
+    },
+    "devDependencies": {
+        "@types/aws-lambda": "8.10.1",
+        "@types/express": "^4.16.0",
+        "@types/node": "^8.0.57",
+        "serverless-webpack": "^5.1.1",
+        "source-map-support": "^0.5.6",
+        "ts-loader": "^4.2.0",
+        "typescript": "^2.9.2",
+        "webpack": "^4.5.0"
+    },
+    "author": "ZUlifqar Ahmad"
 }

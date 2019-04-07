@@ -2,24 +2,17 @@ import { Mysqldb } from '../events/config';
 var mysqlPool = require('mysql');
 
 export class DbQueriesUtils {
-  //private static instance: DbQueriesUtils = null;
-
   private dbPool: any;
 
   constructor() {
-    //DbQueriesUtils.getInstance();
     this.createDbPool();
   }
-
-  // static getInstance() {
-  //   DbQueriesUtils.instance = DbQueriesUtils.instance ? DbQueriesUtils.instance : new DbQueriesUtils();
-  //   return DbQueriesUtils.instance;
-  // }
 
   private createDbPool(): void {
     if (this.dbPool == null) {
       this.dbPool = mysqlPool.createPool({
         host: Mysqldb.host,
+        port: Mysqldb.port,
         user: Mysqldb.user,
         password: Mysqldb.password,
         database: Mysqldb.database,
@@ -28,8 +21,7 @@ export class DbQueriesUtils {
   }
 
   public getQuery = async (query: string) => {
-    console.log('In sqlUtil calling getTeamsList functions');
-    let callRes: any;
+
     return new Promise((resolve: any, reject: any) => {
       try {
         this.dbPool.getConnection(function(err: any, connection: any) {
@@ -37,7 +29,6 @@ export class DbQueriesUtils {
           if (err) {
             console.error('Error is mysql connection:' + err);
             reject('Error is mysql connection:' + err);
-            callRes = 'Error is mysql connection: ' + err;
           }
 
           connection.query(query, function(error: any, results: any, fields: any) {
@@ -46,21 +37,16 @@ export class DbQueriesUtils {
             // Handle error after the release.
             if (error) {
               console.error('Error is mysql processing query:' + error);
-              reject(error);
-              callRes = 'Error is mysql processing query:' + error;
+              reject(`'Error is mysql processing query: ${error}`);
             } else {
-              console.log('For mysql query : ' + query + '\n Data: ' + JSON.stringify(results[4]));
               resolve(results);
-              callRes = results;
             }
           });
         });
       } catch (err) {
         console.log('rr ', err);
         reject('Error in Db Queries: ', err);
-        callRes = 'Error in Db Queries: ' + err;
       }
-      return callRes;
     });
   };
 }

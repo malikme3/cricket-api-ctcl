@@ -14,7 +14,6 @@ export class TeamController {
         response = error;
       }
     }
-    console.log('Response from controller: ', JSON.stringify(response));
-    return response;
+    return response[1];
   }
 }
